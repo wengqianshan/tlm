@@ -1,0 +1,223 @@
+extends layout
+
+block content
+    #main-nav.navbar.navbar-fixed-top
+        .container
+            .navbar-header
+                button.navbar-toggle(type='button', data-toggle='collapse', data-target='#site-nav')
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a.navbar-brand.visible-xs.scrollto(href='index.html#home') 特乐马
+            #site-nav.navbar-collapse.collapse
+                ul.nav.navbar-nav
+                    li
+                        a.scrollto(href='index.html#services') 服务项目
+                    li
+                        a.scrollto(href='index.html#about') 关于我们
+                    li#logo
+                        a.scrollto(href='index.html#home')
+                            h1 特乐马
+                    li
+                        a.scrollto(href='index.html#portfolio') 作品展示
+                    li
+                        a.scrollto(href='index.html#contact') 联系我们
+    header#home.jumbotron
+        .container
+            .row
+                .col-sm-6.text-col
+                    h1 特乐马装饰
+                    p 为客户提供全方位的理念及服务，用智慧与才能营造完美的现代生活空间
+                .col-sm-6
+                    .imac-frame
+                        img.img-responsive.img-center(src='/assets/app/images/imac.png', alt='')
+                        .imac-screen.flexslider
+                            ul.slides
+                                each item in slide
+                                    - var gallery = item.gallery || [];
+                                    - var img = gallery[0];
+                                    if (img)
+                                        li
+                                            //a(href='/content/#{item.id}')
+                                            a.scrollto(href='#portfolio')
+                                                img(src='#{img.sm_url}')
+    section#services.white-bg.padding-top-bottom
+        .container
+            header.section-header.text-center
+                h1.scrollimation.scale-in 服务项目
+                p 品质非凡，只为您私人订制
+            .row.services
+                .col-md-3.col-sm-6.item.scrollimation.fade-up
+                    .icon
+                        img.img-responsive.img-center(src='/assets/app/images/service1.png', alt='')
+                    h2 装修设计
+                    p 完善中...
+                .col-md-3.col-sm-6.item.scrollimation.fade-up.d1
+                    .icon
+                        img.img-responsive.img-center(src='/assets/app/images/service2.png', alt='')
+                    h2 工程预算
+                    p 完善中...
+                .col-md-3.col-sm-6.item.scrollimation.fade-up.d2
+                    .icon
+                        img.img-responsive.img-center(src='/assets/app/images/service3.png', alt='')
+                    h2 流程控制
+                    p 完善中...
+                .col-md-3.col-sm-6.item.scrollimation.fade-up.d3
+                    .icon
+                        img.img-responsive.img-center(src='/assets/app/images/service4.png', alt='')
+                    h2 装修咨询
+                    p 完善中...
+    section#about.dark-bg.light-typo.padding-top-bottom
+        .container
+            header.section-header.text-center
+                h1.scrollimation.scale-in 关于我们
+            .row
+                .col-sm-8.col-sm-offset-2
+                    // <img class="img-responsive img-center img-circle scrollimation fade-left" src="/assets/app/images/about.jpg" alt="" />
+                    p.text-center.scrollimation.fade-in
+                        | 杭州特乐马装饰设计创立于2008年，专注于室内和小型工装设计以及施工。
+                        br
+                        | 　　 多年以来，特乐马时刻关注流行、古典、现代各类美学元素的发展趋势，以全新的设计理念、独特的艺术观，结合客户的实际需求，以及卓越的追求为客户度身定位，缔造出一个个品位独特、时尚精彩的居家空间。
+                        br
+                        | 　　 特乐马设计师要求拥有积极向上、不断更新的创作精神，在业内以高性价比，高效率，得到广泛认可和好评。凭借严谨设计，周密施工，真诚服务的原则在客户群中有着良好的口碑和信誉，为客户提供全方位的理念及服务，用智慧与才能营造完美的现代生活空间。
+            p.text-center
+                a.btn.btn-meflat.scrollto.white.icon-left(href='index.html#contact')
+                    i.fa.fa-arrow-down
+                    | 给我们留言
+    section#portfolio.gray-bg.padding-top-bottom
+        .container
+            header.section-header.text-center
+                h1.scrollimation.scale-in 作品展示
+                p 我们一贯追求居室的功能和效果的最佳平衡点，力求每套作品给业主带来舒适的居住体验和经典的感观效果。
+            #filter-works
+                ul
+                    li.active.scrollimation.fade-right.d1
+                        a(href='index.html#', data-filter='*') 全部
+                    each item in tags
+                        li.scrollimation.fade-right
+                            a(href='index.html', data-filter='#{item.name}') #{item.name}
+        .container.masonry-wrapper.scrollimation.fade-in
+            #projects-container
+                each item in portfolio
+                    - var gallery = item.gallery || [];
+                    - var tags = item.tags || [];
+                    - var tag =tags[0] && tags[0].name;
+                    - var img = gallery[0];
+                    - var imgs = img && gallery.map(function(item) {return item.md_url}).join(',');
+                    if img
+                        article.project-item.mock-up(data-category='#{tag}')
+                            img.img-responsive.project-image(src='#{img.sm_url || img.url}', alt='')
+                            .hover-mask
+                                h2.project-title #{item.title}
+                                p #{tag}
+                            .sr-only.project-description(data-date='#{item.created}', data-link='#{item.id}', data-descr='#{item.content}', data-images='#{imgs}')
+                                | #{item.content}
+                
+        //
+            预览
+        #project-modal.modal.fade
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        .container
+                            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                            h1#hdr-title.text-center
+                            .row
+                                .col-md-8.col-md-offset-2
+                                    .image-wrapper
+                                        img.img-responsive(src='/assets/app/images/chrome.png', alt='')
+                                        .loader
+                                        .screen
+                    .modal-body
+                        .container
+                            .row
+                                #project-sidebar.col-md-3
+                                    h2#sdbr-title
+                                    p#sdbr-category
+                                    p#sdbr-date
+                                    p#sdbr-client
+                                    p#sdbr-link
+                                        a(href='index.html#link', target='_blank')
+                                    p#sdbr-descr
+                                #project-content.col-md-8.col-md-offset-1
+                    // End modal-body
+                // End modal-content
+            // End modal-dialog
+        // End modal
+    //
+        作品
+    //
+        <section id="dribbble">
+        <h1 class="dribbble-button"><a href="http://dribbble.com/pixeden" target="_blank">My Dribbble Shots</a></h1>
+        <div class="row">
+        <div class="col-md-2 col-sm-4 col-xs-6">
+        <a href="http://dribbble.com/pixeden" target="_blank"><img class="img-responsive" src="/assets/app/images/dribbble_1.jpg"  alt=""></a>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+        <a href="http://dribbble.com/pixeden" target="_blank"><img class="img-responsive" src="/assets/app/images/dribbble_2.jpg"  alt=""></a>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+        <a href="http://dribbble.com/pixeden" target="_blank"><img class="img-responsive" src="/assets/app/images/dribbble_3.jpg"  alt=""></a>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+        <a href="http://dribbble.com/pixeden" target="_blank"><img class="img-responsive" src="/assets/app/images/dribbble_4.jpg"  alt=""></a>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+        <a href="http://dribbble.com/pixeden" target="_blank"><img class="img-responsive" src="/assets/app/images/dribbble_5.jpg"  alt=""></a>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+        <a href="http://dribbble.com/pixeden" target="_blank"><img class="img-responsive" src="/assets/app/images/dribbble_6.jpg"  alt=""></a>
+        </div>
+        </div>
+        </section>
+    //
+        联系我们
+    section#contact.dark-bg.light-typo.padding-top
+        .container
+            header.section-header.text-center
+                h1.scrollimation.scale-in 联系我们
+                p
+                    | 电话：(0571) 88961696
+                    br
+                    |                         地址：丰潭路489号总部经济商务园区E座4层312
+                    br
+            form#contact-form.bl_form.text-center(action='/contact', method='post', novalidate='')
+                span.field-wrap.scrollimation.fade-right
+                    label.control-label(for='contact-name') 姓名
+                    input#contact-name.label_better.requiredField(name='name', type='text', data-new-placeholder='姓名', placeholder='姓名', data-error-empty='*请输入您的姓名')
+                span.field-wrap.scrollimation.fade-in
+                    label.control-label(for='contact-mail') 邮箱
+                    input#contact-mail.label_better.requiredField(name='mobile', type='tel', data-new-placeholder='手机', placeholder='手机', data-error-empty='*请输入手机号', data-error-invalid='x 手机号格式不对')
+                span.field-wrap.scrollimation.fade-left
+                    label.control-label(for='contact-message') 留言
+                    textarea#contact-message.label_better.requiredField(name='content', rows='1', data-new-placeholder='留言', placeholder='留言', data-error-empty='*请留言')
+                p.text-center
+                    button.btn.btn-meflat.icon-left(name='submit', type='submit', data-error-message='出错了!', data-sending-message='发送中..', data-ok-message='已发送')
+                        i.fa.fa-location-arrow
+                        | 发送
+                    input(type='hidden', name='_csrf', value='#{token}')
+                input#submitted(type='hidden', name='submitted', value='true')
+    //
+        地图
+    #J_map
+    footer#main-footer.dark-bg.light-typo
+        .container
+            hr
+            .row
+                .col-sm-6
+                    ul.social-links
+                        li.scrollimation.fade-right.d4
+                            a(href='http://weibo.com/517661789', target='_blank')
+                                i.fa.fa-weibo
+                        li.scrollimation.fade-right.d3
+                            a.J_popover(href='javascript:',data-toggle='popover' data-trigger='hover' data-placement='top' data-content='<img width="150" src="https://mp.weixin.qq.com/misc/getqrcode?fakeid=2398489720&token=55318431&style=1"/>')
+                                i.fa.fa-weixin
+                        li.scrollimation.fade-right.d2
+                            a.J_popover(href='javascript:',data-toggle='popover' data-trigger='hover' data-placement='top' data-content='<img width="150" src="https://mp.weixin.qq.com/misc/getqrcode?fakeid=2398489720&token=55318431&style=1"/>')
+                                i.fa.fa-qq
+                .col-sm-6.text-right
+                    p
+                        | ©2014 Developed By 
+                        a(href='http://wenglou.com', target='_blank') 山哥
+    
+               

@@ -1,0 +1,258 @@
+doctype html
+html.no-js
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        title #{title}
+        meta(name='description', content='')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+        // Favicon
+        link(rel='shortcut icon', href='/assets/server/img/favicon.ico', type='image/x-icon')
+        // Bootstrap core CSS
+        link(rel='stylesheet', href='/assets/plugins/bootstrap/css/bootstrap.min.css')
+        // Bootstrap dialog
+        link(rel='stylesheet', href='/assets/plugins/bootstrap3-dialog/css/bootstrap-dialog.min.css')
+
+        link(rel='stylesheet', href='/assets/plugins/messenger/css/messenger.css')
+        link(rel='stylesheet', href='/assets/plugins/messenger/css/messenger-theme-flat.css')
+
+        link(rel='stylesheet', href='/assets/plugins/chosen_v1.2.0/chosen.css')
+
+        // Fonts from Font Awsome
+        link(rel='stylesheet', href='/assets/server/css/font-awesome.min.css')
+        // CSS Animate
+        link(rel='stylesheet', href='/assets/server/css/animate.css')
+        // Custom styles for this theme
+        link(rel='stylesheet', href='/assets/server/css/main.css')
+        link(rel='stylesheet', href='/assets/server/css/style.css')
+        block head-css
+        // Feature detection
+        script(src='/assets/server/js/modernizr-2.6.2.min.js')
+        block head-js
+        // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+        //if lt IE 9
+            script(src='/assets/server/js/html5shiv.js')
+            script(src='/assets/server/js/respond.min.js')
+    body
+        section#container
+            header#header
+                // logo start
+                .brand
+                    a.logo(href='#{adminDir}')
+                        | 管理后台
+                        //| 实验室
+                // logo end
+                .toggle-navigation.toggle-left
+                    button#toggle-left.btn.btn-default(type='button', data-toggle='tooltip', data-placement='right', title='切换左栏')
+                        i.fa.fa-bars
+
+                .user-nav
+                    ul
+                        //li.dropdown.messages
+                            span#new-messages.badge.badge-danager.animated.bounceIn 5
+                            button#toggle-mail.btn.btn-default.dropdown-toggle.options(type='button', data-toggle='dropdown')
+                                i.fa.fa-envelope
+                            ul.dropdown-menu.alert.animated.fadeInDown
+                                li
+                                    h1
+                                        | You have 
+                                        strong 5
+                                        |  new messages
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets/server/img/avatar.gif', alt='')
+                                        .message-info
+                                            span.sender James Bagian
+                                            span.time 30 mins
+                                            .message-content Lorem ipsum dolor sit amet, elit rutrum felis sed erat augue fusce...
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets/server/img/avatar1.gif', alt='')
+                                        .message-info
+                                            span.sender Jeffrey Ashby
+                                            span.time 2 hour
+                                            .message-content hendrerit pellentesque, iure tincidunt, faucibus vitae dolor aliquam...
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets/server/img/avatar2.gif', alt='')
+                                        .message-info
+                                            span.sender John Douey
+                                            span.time 3 hours
+                                            .message-content Penatibus suspendisse sit pellentesque eu accumsan condimentum nec...
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets/server/img/avatar3.gif', alt='')
+                                        .message-info
+                                            span.sender Ellen Baker
+                                            span.time 7 hours
+                                            .message-content Sem dapibus in, orci bibendum faucibus tellus, justo arcu...
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets/server/img/avatar4.gif', alt='')
+                                        .message-info
+                                            span.sender Ivan Bella
+                                            span.time 6 hours
+                                            .message-content Curabitur metus faucibus sapien elit, ante molestie sapien...
+                                li
+                                    a(href='index.html#')
+                                        | Check all messages 
+                                        i.fa.fa-angle-right
+                        if (User)
+                            li.profile-photo
+                                - var avatar = gravatar.url(User.email, {s: '40',r: 'x',d: 'retro'}, true)
+                                img.img-circle(src='#{avatar}', alt='')
+                            li.dropdown.settings
+                                a.dropdown-toggle(data-toggle='dropdown', href='')
+                                    | #{User.name}
+                                    i.fa.fa-angle-down
+                                ul.dropdown-menu
+                                    li
+                                        a(href='#{adminDir}/me')
+                                            i.fa.fa-user
+                                            |  个人资料
+                                    //li
+                                        a(href='index.html#')
+                                            i.fa.fa-envelope
+                                            |  消息 
+                                            span#user-inbox.badge.badge-danager 5
+                                    li
+                                        a(href='#{adminDir}/user/logout')
+                                            i.fa.fa-power-off
+                                            |  登出
+            // sidebar left start
+            aside.sidebar
+                #leftside-navigation.nano
+                    ul.nano-content
+                        li(class=Path === 'index' ? 'active' : '')
+                            a(href='#{adminDir}')
+                                i.fa.fa-dashboard
+                                span 首页
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('content') > -1))
+                            li.sub-menu(class=Path === 'content' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-file-text
+                                    span 内容
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/content') 内容列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/content/add') 添加内容
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('category') > -1))
+                            li.sub-menu(class=Path === 'category' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-th
+                                    span 区块
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/category') 区块列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/category/add') 添加区块
+                        //if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('comment') > -1))
+                            li(class=Path === 'comment' ? 'active' : '')
+                                a(href='#{adminDir}/comment') 评论列表
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('user') > -1))
+                            li.sub-menu(class=Path === 'user' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-users
+                                    span 用户
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/user') 用户列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/user/add') 添加用户
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('role') > -1))
+                            li.sub-menu(class=Path === 'role' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-unlock-alt
+                                    span 角色
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/role') 角色列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/role/add') 添加角色
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('file') > -1))
+                            li.sub-menu(class=Path === 'file' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-folder-open
+                                    span 文件
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/file') 文件列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/file/add') 添加文件
+                        //if (User && Roles.indexOf('admin') > -1)
+                            li.sub-menu(class=Path === 'notification' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-envelope
+                                    span 站内信
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/notification') 已收到
+                                    li(class=Menu === 'sent' ? 'active' : '')
+                                        a(href='#{adminDir}/notification/sent') 已发出
+                        if (User && Roles.indexOf('admin') > -1)
+                            li.sub-menu(class=Path === 'message' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-comment
+                                    span 访客留言
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/message') 留言列表
+                        //if (User && Roles.indexOf('admin') > -1)
+                            li.sub-menu(class=Path === 'page' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-file
+                                    span 页面
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/page') 页面列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/page/add') 添加页面
+                        if (User && Roles.indexOf('admin') > -1)
+                            li.sub-menu(class=Path === 'tag' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-tags
+                                    span 标签
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/tag') 标签列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/tag/add') 添加标签
+                                
+            // sidebar left end
+            // main content start
+            section.main-content-wrapper
+                section#main-content
+                    block content
+                    
+                    
+            // main content end
+            
+        // Global JS
+        script(src='/assets/server/js/jquery-1.10.2.min.js')
+        script(src='/assets/plugins/bootstrap/js/bootstrap.min.js')
+        script(src='/assets/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js')
+        script(src='/assets/plugins/messenger/js/messenger.min.js')
+        script(src='/assets/plugins/messenger/js/messenger-theme-future.js')
+        script(src='/assets/plugins/chosen_v1.2.0/chosen.jquery.min.js')
+        script(src='/assets/server/js/vendor/mustache.js')
+        script(src='/assets/server/js/application.js')
+        // Load these page level functions
+        block foot-js
+        //script.
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F3a258fabccde554fc44cba951692bdde' type='text/javascript'%3E%3C/script%3E"));
