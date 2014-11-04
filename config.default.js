@@ -2,7 +2,7 @@ var appPath = process.cwd();
 var config = {
     //mongodb配置信息
     mongodb: {
-        uri: 'mongodb://localhost/cms',
+        uri: 'mongodb://localhost/tlm',
         options: {}
     },
     //找回密码hash过期时间
