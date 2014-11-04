@@ -12,12 +12,12 @@ router.use(function(req, res, next) {
 //登录
 router.route('/login').all(user.checkInstall, user.login);
 //注册
-router.route('/register').all(user.register);
+//router.route('/register').all(user.register);
 
 //注销
 router.route('/logout').all(user.logout);
 //忘记密码
-router.route('/forget').all(user.forget);
+//router.route('/forget').all(user.forget);
 
 
 //权限判断
