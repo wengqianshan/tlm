@@ -10,6 +10,7 @@ var mongoose = require('mongoose'),
     core = require('../../libs/core');
 exports.index = function(req, res) {
     console.log('前台')
+    console.log(req.headers['x-forwarded-for'])
     //console.time('content-list');
     var condition = {};
     var obj = {
@@ -26,7 +27,7 @@ exports.index = function(req, res) {
         obj.slide = data;
         return Category.find({flag: {'$in': ['portfolio', 'slide']}}).exec();
     }).then(function(obj) {
-        console.log(obj)
+        //console.log(obj)
         var ids = obj.map(function(item) {
             return item.id;
         });
@@ -36,7 +37,7 @@ exports.index = function(req, res) {
         return Tag.find().exec();
     }).then(function(data) {
         obj.tags = data;
-        console.log(obj)
+        //console.log(obj)
         res.render('app/index', {
             //title: '列表',
             title: '网站首页',
@@ -52,7 +53,9 @@ exports.contact = function(req, res) {
         res.render('app/contact', {});
     } else if (req.method === 'POST') {
         var obj = req.body;
-        obj.ip = req.ip;
+        //obj.ip = req.ip;
+        obj.ip = core.getIp(req);
+        //console.log(obj.ip)
         var contact = new Message(obj);
         contact.save(function(err, result) {
             console.log(err, result);
