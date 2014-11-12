@@ -110,8 +110,8 @@ block content
                             .hover-mask
                                 h2.project-title #{item.title}
                                 p #{tag}
-                            .sr-only.project-description(data-date='#{item.created}', data-link='#{item.id}', data-descr='#{item.content}', data-images='#{imgs}')
-                                | #{item.content}
+                            .sr-only.project-description(data-category='#{item.tags.length && item.tags[0].name}', data-client='#{item.author.name}', data-date='#{moment(item.created).format("LL")}', data-link='#{item.id}', data-images='#{imgs}')
+                                | !{md(item.content)}
                 
         //
             预览
@@ -134,11 +134,11 @@ block content
                                 #project-sidebar.col-md-3
                                     h2#sdbr-title
                                     p#sdbr-category
-                                    p#sdbr-date
                                     p#sdbr-client
-                                    p#sdbr-link
+                                    p#sdbr-date
+                                    //p#sdbr-link
                                         a(href='index.html#link', target='_blank')
-                                    p#sdbr-descr
+                                    //p#sdbr-descr
                                 #project-content.col-md-8.col-md-offset-1
                     // End modal-body
                 // End modal-content

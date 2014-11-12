@@ -31,7 +31,7 @@ exports.index = function(req, res) {
         var ids = obj.map(function(item) {
             return item.id;
         });
-        return Content.find({category: {'$in': ids}}).populate('gallery category tags').sort({created: -1}).exec();
+        return Content.find({category: {'$in': ids}}).populate('gallery category tags author').sort({created: -1}).exec();
     }).then(function(data) {
         obj.portfolio = data;
         return Tag.find().exec();
