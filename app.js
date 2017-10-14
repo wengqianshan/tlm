@@ -145,7 +145,7 @@ app.use(function(err, req, res, next) {
 });
 
 var debug = require('debug')('cms');
-app.set('port', process.env.PORT || 9001);
+app.set('port', process.env.PORT || config.port || 9002);
 var server = app.listen(app.get('port'), function() {
   console.log('网站服务已启动，端口号： ' + server.address().port);
 });
